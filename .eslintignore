@@ -2,3 +2,4 @@ node_modules/
 example/
 index.*
 adaptor.*
+jest.config.js
