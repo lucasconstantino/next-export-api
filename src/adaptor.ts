@@ -4,30 +4,41 @@
  */
 
 import type { NextApiHandler } from 'next'
-import type { APIGatewayEvent, Context } from 'aws-lambda'
+import type {
+  Context,
+  APIGatewayEvent,
+  APIGatewayProxyResult,
+  APIGatewayProxyStructuredResultV2,
+} from 'aws-lambda'
+
 import express, { Handler } from 'express'
 import { json } from 'body-parser'
-import { createServer, proxy } from 'aws-serverless-express'
+import serverless from 'serverless-http'
 
-const adaptor = (handler: NextApiHandler) =>
-  !process.env.NETLIFY
-    ? /**
-       * Handler is returned as is if not running on Netlify environment
-       */
-      handler
-    : /**
-       * Handler is returned as AWS gateway function, but adapted to run
-       * the provided Next.js compatible handler.
-       */
-      async (event: APIGatewayEvent, context: Context) =>
-        proxy(
-          createServer(
-            express()
-              .use(json())
-              .use((handler as unknown) as Handler)
-          ),
-          event,
-          context
-        )
+export type { NextApiHandler }
+
+export type NetlifyApiHandler = (
+  event: APIGatewayEvent,
+  context: Context
+) => Promise<APIGatewayProxyResult | APIGatewayProxyStructuredResultV2>
+
+const adaptor = (handler: NextApiHandler) => {
+  /**
+   * Handler is returned as is if running on Next.js environment
+   */
+  if (!process.env.NETLIFY) {
+    return handler
+  }
+
+  const app = express()
+    .use(json())
+    .use((handler as unknown) as Handler)
+
+  /**
+   * Handler is returned as AWS gateway function if running on Netlify,
+   * but adapted to run the provided Next.js compatible handler.
+   */
+  return serverless(app)
+}
 
 export { adaptor }
