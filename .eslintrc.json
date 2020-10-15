@@ -5,5 +5,9 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
+  "env": {
+    "node": true,
+    "browser": true
+  },
   "rules": {}
 }
