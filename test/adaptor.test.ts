@@ -100,7 +100,11 @@ describe('adaptor', () => {
         {} as any
       )
 
-      expect(result.headers['content-type']).toMatch('application/json')
+      expect(result).toHaveProperty(
+        'headers.content-type',
+        expect.stringMatching('application/json')
+      )
+
       expect(result.body).toEqual('{"message":"ok"}')
     })
   })
