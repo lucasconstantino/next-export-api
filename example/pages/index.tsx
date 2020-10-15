@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react'
+import { api } from 'next-to-netlify'
 
 /**
  * Generic requester factory.
@@ -31,9 +32,9 @@ const useRequester = (requester: (name: string) => Promise<Response>) => {
 }
 
 const requests = {
-  get: (name: string) => fetch(`/api/get?name=${name}`),
+  get: (name: string) => fetch(`${api}/get?name=${name}`),
   post: (name: string) =>
-    fetch('/api/post', {
+    fetch(`${api}/post`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name }),
