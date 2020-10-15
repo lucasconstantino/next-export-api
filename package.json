@@ -23,7 +23,9 @@
   "scripts": {
     "compile": "tsc",
     "lint": "eslint . --cache --fix --ext .ts,.tsx",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "qa": "yarn link",
+    "prepublish": "yarn compile"
   },
   "husky": {
     "hooks": {
