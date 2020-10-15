@@ -3716,10 +3716,10 @@ next-tick@~1.0.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
 
-next-to-netlify@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/next-to-netlify/-/next-to-netlify-0.1.4.tgz#eb50b903421102d58b2ca2d4988218612c1e7d81"
-  integrity sha512-PNS2CC3XdopDXcVQ0fZhvDoU/DEPVwyIrVYsqrx6mrH1K1dLskd1Wsoc4cnCp+8t03mI1gey8xd99kV2NOC0wQ==
+next-to-netlify@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/next-to-netlify/-/next-to-netlify-0.1.5.tgz#731d50d1c1775c375c07037ffc9be112d5011436"
+  integrity sha512-RtPz2tLGj24UZdsiP0kY+yixo0QQzk0lHBy2rjxWm21F9NRTPvQlA39GgjLGWOpunUIErFVa7m2CYt1b4Vap2w==
   dependencies:
     "@types/next" "^9.0.0"
     "@types/react" "^16.9.52"

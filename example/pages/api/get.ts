@@ -1,4 +1,4 @@
-import { adaptor } from 'next-to-netlify'
+import { adaptor } from 'next-to-netlify/adaptor'
 
 export const handler = adaptor((req, res) => {
   res.status(200).send({ name: `Hello, ${req.query.name}` })
