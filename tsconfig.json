@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "outDir": "lib",
     "target": "es6",
     "module": "commonjs",
     "moduleResolution": "node",
@@ -8,8 +9,7 @@
     "emitDecoratorMetadata": true,
     "noUnusedLocals": true,
     "pretty": true,
-    "lib": [
-      "esnext"
-    ]
-  }
+    "lib": ["esnext"]
+  },
+  "include": ["src/**/*"]
 }
