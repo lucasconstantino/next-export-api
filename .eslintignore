@@ -1,4 +1,4 @@
 node_modules/
 example/
-index.js
-adaptor.js
+index.*
+adaptor.*
