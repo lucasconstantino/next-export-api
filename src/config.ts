@@ -1,8 +1,9 @@
-import path from 'path'
+// import path from 'path'
 import type { Configuration } from 'webpack'
 
 type NextContext = {
   dir: string
+  isServer: boolean
   config: {
     pageExtensions: string[]
   }
@@ -40,28 +41,30 @@ const withNetlify = (nextConfig?: NextConfig) => {
 
     /**
      * Attach loader to inject "handler" export to API routes, as expected by Netlify.
+     *
+     * This solution doesn't currently work.
      */
-    webpack: (config: Configuration, context: NextContext) => {
-      const include = [
-        path.resolve(context.dir, 'pages/api'),
-        path.resolve(context.dir, 'src/pages/api'),
-      ]
+    // webpack: (config: Configuration, context: NextContext) => {
+    //   const include = [
+    //     path.resolve(context.dir, 'pages/api'),
+    //     path.resolve(context.dir, 'src/pages/api'),
+    //   ]
 
-      const test = new RegExp(
-        `.(${context.config.pageExtensions.join('|')})$`,
-        'gi'
-      )
+    //   const test = new RegExp(
+    //     `.(${context.config.pageExtensions.join('|')})$`,
+    //     'gi'
+    //   )
 
-      config.module?.rules.push({
-        test,
-        include,
-        loader: path.resolve(__dirname, './loader.js'),
-      })
+    //   config.module?.rules.push({
+    //     test,
+    //     include,
+    //     loader: path.resolve(__dirname, './loader.js'),
+    //   })
 
-      return typeof nextConfig?.webpack === 'function'
-        ? nextConfig.webpack(config, context)
-        : config
-    },
+    //   return typeof nextConfig?.webpack === 'function'
+    //     ? nextConfig.webpack(config, context)
+    //     : config
+    // },
   }
 
   return Object.assign({}, nextConfig, netlifyConfig)
