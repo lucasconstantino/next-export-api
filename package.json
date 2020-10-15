@@ -16,7 +16,7 @@
     "static",
     "jamstack"
   ],
-  "main": "./lib/index.js",
+  "main": "./index.js",
   "scripts": {
     "compile": "tsc",
     "lint": "eslint . --cache --fix --ext .ts,.tsx",

@@ -1,5 +1,3 @@
-export { adaptor } from './adaptor'
-
 /**
  * Either "/.netlify/functions" or "/api", based on current environment.
  */
