@@ -17,9 +17,6 @@
     "jamstack"
   ],
   "main": "./lib/index.js",
-  "files": [
-    "./lib/**/*"
-  ],
   "scripts": {
     "compile": "tsc",
     "lint": "eslint . --cache --fix --ext .ts,.tsx",
