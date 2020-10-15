@@ -1,0 +1,4 @@
+[build]
+  command = "yarn build"
+  publish = "out"
+  functions = ".next/server/pages/api"
