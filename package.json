@@ -1,0 +1,9 @@
+{
+  "name": "next-to-netlify",
+  "version": "0.1.0",
+  "description": "Next.js API routes adaptor for Netlify",
+  "repository": "git@github.com:lucasconstantino/next-to-netlify.git",
+  "author": "Lucas Constantino Silva <lucasconstantinosilva@gmail.com>",
+  "license": "MIT",
+  "private": false
+}
