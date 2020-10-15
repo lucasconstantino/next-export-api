@@ -1,7 +1,7 @@
-import { NextApiHandler } from 'next'
+import { adaptor } from 'next-to-netlify'
 
-const handler: NextApiHandler = (req, res) => {
+export const handler = adaptor((req, res) => {
   res.status(200).send({ name: `Hello, ${req.query.name}` })
-}
+})
 
 export default handler
