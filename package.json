@@ -5,5 +5,11 @@
   "repository": "git@github.com:lucasconstantino/next-to-netlify.git",
   "author": "Lucas Constantino Silva <lucasconstantinosilva@gmail.com>",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "scripts": {
+    "pretest": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.3"
+  }
 }
