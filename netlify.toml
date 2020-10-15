@@ -1,4 +1,5 @@
 [build]
-  command = "cd example && yarn build"
-  publish = "example/out"
-  functions = "example/.next/server/pages/api"
+  base = "example"
+  command = "yarn build"
+  publish = "out"
+  functions = ".next/server/pages/api"
