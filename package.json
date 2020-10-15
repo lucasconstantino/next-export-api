@@ -6,7 +6,20 @@
   "repository": "git@github.com:lucasconstantino/next-to-netlify.git",
   "license": "MIT",
   "author": "Lucas Constantino Silva <lucasconstantinosilva@gmail.com>",
+  "keywords": [
+    "nextjs",
+    "netlify",
+    "react",
+    "functions",
+    "lambda",
+    "api",
+    "static",
+    "jamstack"
+  ],
   "main": "./lib/index.js",
+  "files": [
+    "./lib/**/*"
+  ],
   "scripts": {
     "compile": "tsc",
     "lint": "eslint . --cache --fix --ext .ts,.tsx",
