@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "next": "9.5.5",
-    "next-to-netlify": "^0.1.7",
+    "next-to-netlify": "^0.1.9",
     "react": "16.14.0",
     "react-dom": "16.14.0"
   },
