@@ -3,7 +3,7 @@
  * @see https://github.com/vercel/next.js/blob/canary/packages/next/next-server/server/api-utils.ts
  */
 
-import type { NextApiHandler } from 'next'
+import type { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 import type {
   Context,
   APIGatewayEvent,
@@ -22,12 +22,19 @@ export type NetlifyApiHandler = (
   context: Context
 ) => Promise<APIGatewayProxyResult | APIGatewayProxyStructuredResultV2>
 
-const adaptor = (handler: NextApiHandler) => {
+const inNetlify = (
+  eventOrRequest: APIGatewayEvent | NextApiRequest
+): eventOrRequest is APIGatewayEvent => 'httpMethod' in eventOrRequest
+
+const adaptor = (handler: NextApiHandler) => (
+  eventOrRequest: APIGatewayEvent | NextApiRequest,
+  contextOrResponse: Context | NextApiResponse
+) => {
   /**
-   * Handler is returned as is if running on Next.js environment
+   * Handler is executed as is if running on Next.js environment
    */
-  if (!process.env.NETLIFY) {
-    return handler
+  if (!inNetlify(eventOrRequest)) {
+    return handler(eventOrRequest, contextOrResponse as NextApiResponse)
   }
 
   const app = express()
@@ -35,10 +42,10 @@ const adaptor = (handler: NextApiHandler) => {
     .use((handler as unknown) as Handler)
 
   /**
-   * Handler is returned as AWS gateway function if running on Netlify,
+   * Handler is executed as AWS gateway function if running on Netlify,
    * but adapted to run the provided Next.js compatible handler.
    */
-  return serverless(app)
+  return serverless(app)(eventOrRequest, contextOrResponse as Context)
 }
 
 export { adaptor }
