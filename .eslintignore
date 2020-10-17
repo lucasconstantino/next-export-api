@@ -3,4 +3,5 @@ example/
 lib/
 index.*
 adaptor.*
+config.*
 jest.config.js
