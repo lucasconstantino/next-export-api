@@ -1,9 +1,9 @@
 {
-  "name": "next-to-netlify",
+  "name": "next-export-api",
   "version": "0.1.10",
   "private": false,
   "description": "Next.js API routes adaptor for Netlify",
-  "repository": "git@github.com:lucasconstantino/next-to-netlify.git",
+  "repository": "git@github.com:lucasconstantino/next-export-api.git",
   "license": "MIT",
   "author": "Lucas Constantino Silva <lucasconstantinosilva@gmail.com>",
   "keywords": [

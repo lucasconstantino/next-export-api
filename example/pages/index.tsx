@@ -112,10 +112,10 @@ const Home = () => {
       <header>
         <h1>
           <a
-            href="https://github.com/lucasconstantino/next-to-netlify"
+            href="https://github.com/lucasconstantino/next-export-api"
             target="_blank"
           >
-            next-to-netlify
+            next-export-api
           </a>{' '}
           example
         </h1>
