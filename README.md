@@ -1,94 +1,80 @@
-# Next to Netlify
+# Next Export API
 
-![Build status](https://travis-ci.org/lucasconstantino/next-to-netlify.svg?branch=master)
-[![codecov](https://codecov.io/gh/lucasconstantino/next-to-netlify/branch/master/graph/badge.svg)](https://codecov.io/gh/lucasconstantino/next-to-netlify)
+![Build status](https://travis-ci.org/lucasconstantino/next-export-api.svg?branch=master)
+[![codecov](https://codecov.io/gh/lucasconstantino/next-export-api/branch/master/graph/badge.svg)](https://codecov.io/gh/lucasconstantino/next-export-api)
 
 ## Installation
 
 ```
-yarn add next-to-netlify
+yarn add next-export-api
 ```
 
 or
 
 ```
-npm install next-to-netlify
+npm install next-export-api
 ```
 
-> Ensure to install it not as a development dependency, as it is partially used on runtime code.
+> Ensure to install it as a production dependency, not a development one.
+
+Add `next-export-api` to the build script. You can use `postbuild` if you are using `build` on the `package.json`:
+
+```diff
+ {
+   "name": "example",
+   "scripts": {
+     "build": "next build && next export",
++    "postbuild": "next-export-api",
+     "dev": "next dev",
+     "start": "next start"
+   },
+   "dependencies": {
+     "next": "9.5.5",
+     "react": "16.14.0",
+     "react-dom": "16.14.0"
+   }
+ }
+```
+
+Configure `netlify.toml` to define functions directory:
+
+```toml
+[build]
+  command = "yarn build"
+  publish = "out"
+  functions = "out/api"
+```
+
+> Both `publish` and `functions` above are configurable, and will be respected by `next-export-api` command.
+
+_Please check the [example folder](./example/)_ for a ready to deploy sample project.
 
 ## Motivation
 
-[Over a year ago](https://nextjs.org/blog/next-9#api-routes) Next.js released version 9 with [API Routes](https://nextjs.org/docs/api-routes/introduction) support. Netlify has also supported their vision of serverless [functions](https://www.netlify.com/products/functions/). The issue? They have very diverging APIs. Next.js even states API Routes do not work with `next export` in a [caveats section](https://nextjs.org/docs/api-routes/introduction#caveats), and it's understandable. However, with a bit of adaptation from generated API Routes entrypoints it's possible to make it play nicely to be deployed as Netlify functions.
+[Over a year ago](https://nextjs.org/blog/next-9#api-routes) Next.js released version 9 with [API Routes](https://nextjs.org/docs/api-routes/introduction) support. Netlify has also long supported their vision of serverless [functions](https://www.netlify.com/products/functions/). The issue? They have very diverging APIs. Next.js even states, in a [caveats section](https://nextjs.org/docs/api-routes/introduction#caveats), it's API Routes do not work with `next export` projects - the most straightforward way of deploying Next.js projects on Netlify. However, with a bit of adaptation from generated API Routes entrypoints files, it's possible to make them capable of running on Netlify functions environment.
 
-### API conflicts, their resolutions, and usage
+## Similar projects
 
-#### ✅ Function signature
+This project is heavily inspired by...
 
-Next.js functions are similar to middleware frameworks handlers such as express, for those familiar: it receives a `req` object, and a `res` object. No async or return needed: `res` has the API to send responses.
+- [`next-on-netlify`](https://github.com/netlify/next-on-netlify)
+- [`next-aws-lambda`](https://github.com/serverless-nextjs/serverless-next.js)
+- [`serverless-http`](https://github.com/dougmoscrop/serverless-http)
 
-Netlify, however, exposes a slightly extended version of an AWS Lambda: it's arguments are an `event` and a `context` - optionally also a callback - and the return must follow a very specific format.
+The difference to these projects is `next-export-api` focuses in allowing the use of API Routs on a Next.js [Static HTML Exported](https://nextjs.org/docs/advanced-features/static-html-export) project.
 
-This distinction is not new, and many existing projects try to reduce the gap and ensure reusability of code from one format to the other. Most notably, [`serverless-http`](https://github.com/dougmoscrop/serverless-http), which has being allowing express based applications to run on AWS.
+## How does it work
 
-Therefore, the first missing part for integrating Next.js API Routes and Netlify functions is to create an _adaptor_ which can handle calls from both above APIs.
+Similarly to `next-on-netlify`, this project takes advantage of Next.js own building system, and operates on it's generated code. As for API Routes, Next.js does generate a self-contained file for each `/pages/api` entrypoint, meaning we can _import_ those files or of the foreseen context of a Next.js server.
 
-Here is an usage example:
+The process is like the following:
 
-```js
-import { adaptor } from 'next-to-netlify/adaptor'
+1. Next.js builds into the `.next` directory;
+2. Next.js exports static site into (configurable) `out` directory;
+3. `next-export-api` reads page manifests from the `.next` build, and...
 
-export const handler = adaptor((req, res) => {
-  res.status(200).send({ name: `Hello, ${req.query.name}` })
-})
+   1. Creates one file for each API route under `out/api`
 
-export default handler
-```
+      These files are thin wrappers over Next.js original ones, only adapting for execution on AWS using well supported [`serverless-http`](https://github.com/dougmoscrop/serverless-http).
 
-**Warning:** notice that both `handler` and a default are exported from the file. This is necessary because while Next.js expect the handle to be exported as default, Netlify - following AWS Lambda convention - expects it to be exported as `handler`.
-
-> I've explored ways to reduce the need of this adaptation, and a Webpack loader is possibly a solution. It could not only wrap the default exposed handler, but also re-export it as `handler`. However, it would be more prone to errors and more complex in terms of abstraction and configuration.
-
-#### ✅ Function endpoints
-
-Next.js has a defined convention on where to keep API Routes files, and how they become available through URL: files live under `/pages/api`, and URLs match `/api/[name-of-function]` format.
-
-Netlify, in the other hand, expects you define the functions path in a `netlify.toml` (or via UI), and makes the functions available at `/.netlify/functions/[name-of-function]`.
-
-This can be solved in a couple of opinionated ways:
-
-1. Redirects config on Next.js from `/.netlify/functions/*` to `/api/*`
-2. Redirects on `_redirects` file from `/api/*` to `/.netlify/functions/*`
-3. Imperative use of an adapted endpoint
-
-This module supports numbers `1` and `2` above via `next.config.js`:
-
-```js
-const withNetlify = require('next-to-netlify/config')
-
-module.exports = withNetlify({})
-```
-
-or, with `next-compose-plugins`:
-
-```js
-const withPlugins = require('next-compose-plugins')
-const netlify = require('next-to-netlify/config')
-const sass = require('@zeit/next-sass')
-
-module.exports = withPlugins([[netlify], [sass]])
-```
-
-This is all that's necessary for option `1` from before, and now any API call from the application code would have to be sent to Netlify URL pattern.
-
-For option `3`, besides the above config, you can import the dynamic endpoint as follows:
-
-```js
-import { api } from 'next-to-netlify'
-
-fetch(`${api}/name-of-function`) // usage
-```
-
-#### ❌ Dynamic API Routes
-
-Thought theoretically possible, I didn't explore so far with the possibility of using Next.js [Dynamic API Routes](https://nextjs.org/docs/api-routes/dynamic-api-routes) on Netlify. It should be fine, as Next.js uses the dynamic parts as simple query params in the end.
+   2. Creates `_redirects` rules for each of the API routes above, mapping `/api/*` calls to `/.netlify/functions/*` as expected by Netlify
