@@ -1,7 +1,6 @@
 node_modules/
 example/
 lib/
+templates/
 index.*
-adaptor.*
-config.*
 jest.config.js
