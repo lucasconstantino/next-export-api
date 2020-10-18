@@ -5929,6 +5929,11 @@ neo-async@^2.5.0, neo-async@^2.6.1, neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
+next-aws-lambda@^2.5.1-alpha.0:
+  version "2.5.1-alpha.0"
+  resolved "https://registry.yarnpkg.com/next-aws-lambda/-/next-aws-lambda-2.5.1-alpha.0.tgz#e9ea715c732e56d26727d9b41ba0492ac3d6a746"
+  integrity sha512-kQ7aBnG2LMbmlISvOwg6UiYX0l1yEH/bOwu5rH5BuXb99ar5nmX2LIX90LrrsYp46jlG8tkZgKGCWwiSJEWQVA==
+
 next-tick@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
