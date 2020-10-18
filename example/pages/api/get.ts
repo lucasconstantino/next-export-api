@@ -1,7 +1,5 @@
-import { adaptor } from 'next-to-netlify/adaptor'
-
-export const handler = adaptor((req, res) => {
+const handler = (req, res) => {
   res.status(200).send({ name: `Hello, ${req.query.name}` })
-})
+}
 
 export default handler
