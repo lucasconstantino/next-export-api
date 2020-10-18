@@ -14,5 +14,5 @@
     "pretty": true,
     "lib": ["esnext"]
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "test/**/*"]
 }

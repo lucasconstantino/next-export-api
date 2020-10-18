@@ -1,4 +1,5 @@
-import { adaptor, NextApiHandler, NetlifyApiHandler } from '../src/adaptor'
+import type { NextApiHandler } from 'next'
+import { adaptor } from '../src/adaptor'
 
 describe('adaptor', () => {
   const handlers: { [key: string]: NextApiHandler } = {
@@ -22,9 +23,7 @@ describe('adaptor', () => {
   beforeEach(jest.resetModules)
 
   describe('Netlify', () => {
-    const { ok, status, query, post, body, json } = adaptors as {
-      [key: string]: NetlifyApiHandler
-    }
+    const { ok, status, query, post, body, json } = adaptors
 
     test('"ok" handler', async () => {
       const result = await ok(
