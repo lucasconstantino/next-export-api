@@ -1,6 +1,6 @@
 {
   "name": "next-export-api",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "private": false,
   "description": "Next.js API Routes adaptor for a Netlify static website",
   "repository": "git@github.com:lucasconstantino/next-export-api.git",
