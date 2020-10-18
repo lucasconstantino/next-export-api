@@ -22,7 +22,7 @@
     "lint": "eslint . --cache --fix --ext .ts,.tsx",
     "test": "jest",
     "type-check": "tsc --noEmit",
-    "qa": "yarn lint && yarn test",
+    "qa": "yarn lint && yarn test && yarn tsc --noEmit",
     "prepublish": "yarn qa && yarn compile"
   },
   "husky": {
