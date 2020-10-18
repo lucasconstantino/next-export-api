@@ -3,6 +3,8 @@
 [![Build status](https://travis-ci.org/lucasconstantino/next-export-api.svg?branch=master)](https://travis-ci.org/github/lucasconstantino/next-export-api)
 [![codecov](https://codecov.io/gh/lucasconstantino/next-export-api/branch/master/graph/badge.svg)](https://codecov.io/gh/lucasconstantino/next-export-api)
 
+> Check out the [working example](https://next-export-api.netlify.app/)
+
 ## Installation
 
 ```
