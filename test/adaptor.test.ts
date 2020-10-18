@@ -1,6 +1,3 @@
-import request from 'supertest'
-import express, { Handler } from 'express'
-import parser from 'body-parser'
 import { adaptor, NextApiHandler, NetlifyApiHandler } from '../src/adaptor'
 
 describe('adaptor', () => {
@@ -23,33 +20,6 @@ describe('adaptor', () => {
   }
 
   beforeEach(jest.resetModules)
-
-  describe('Next.js', () => {
-    const { ok, status, query, post, body, json } = (adaptors as unknown) as {
-      [key: string]: Handler
-    }
-
-    const run = (handler: Handler) =>
-      request(express().use(parser.json()).use(handler))
-
-    test('"ok" handler', () => run(ok).get('/').expect(200, 'ok'))
-
-    test('"status" handler', () => run(status).get('/').expect(201, 'ok'))
-
-    test('"query" handler', () =>
-      run(query).get('/?name=susan').expect(200, 'susan'))
-
-    test('"post" handler', () => run(post).post('/').expect(200, 'ok'))
-
-    test('"body" handler', () =>
-      run(body).post('/').send({ name: 'susan' }).expect(200, 'susan'))
-
-    test('"json" handler', () =>
-      run(json)
-        .get('/')
-        .expect('Content-Type', /json/)
-        .expect(200, { message: 'ok' }))
-  })
 
   describe('Netlify', () => {
     const { ok, status, query, post, body, json } = adaptors as {
