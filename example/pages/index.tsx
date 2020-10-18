@@ -38,12 +38,17 @@ const requests = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name }),
     }),
+  nested: (name: string) => fetch(`/api/nested/get?name=${name}`),
 }
 
 const Home = () => {
   const [name, setName] = useState('')
-  const get = useRequester(requests.get)
-  const post = useRequester(requests.post)
+
+  const apis = {
+    get: useRequester(requests.get),
+    post: useRequester(requests.post),
+    nested: useRequester(requests.nested),
+  }
 
   return (
     <div>
@@ -136,27 +141,40 @@ const Home = () => {
             <tr>
               <td>
                 <button
-                  disabled={get.loading || !name}
-                  onClick={() => get.submit(name)}
+                  disabled={apis.get.loading || !name}
+                  onClick={() => apis.get.submit(name)}
                 >
                   Submit using <code>GET</code>
                 </button>
               </td>
               <td>
-                <code>{get.response}</code>
+                <code>{apis.get.response}</code>
               </td>
             </tr>
             <tr>
               <td>
                 <button
-                  disabled={post.loading || !name}
-                  onClick={() => post.submit(name)}
+                  disabled={apis.post.loading || !name}
+                  onClick={() => apis.post.submit(name)}
                 >
                   Submit using <code>POST</code>
                 </button>
               </td>
               <td>
-                <code>{post.response}</code>
+                <code>{apis.post.response}</code>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <button
+                  disabled={apis.nested.loading || !name}
+                  onClick={() => apis.nested.submit(name)}
+                >
+                  Submit to nested API Route
+                </button>
+              </td>
+              <td>
+                <code>{apis.nested.response}</code>
               </td>
             </tr>
           </tbody>
