@@ -1,6 +1,7 @@
 # Next to Netlify
 
 ![Build status](https://travis-ci.org/lucasconstantino/next-to-netlify.svg?branch=master)
+[![codecov](https://codecov.io/gh/lucasconstantino/next-to-netlify/branch/master/graph/badge.svg)](https://codecov.io/gh/lucasconstantino/next-to-netlify)
 
 ## Installation
 
