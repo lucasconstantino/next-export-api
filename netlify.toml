@@ -3,3 +3,6 @@
   command = "yarn build"
   publish = "out"
   functions = "out/api"
+
+[dev]
+  framework = "#static"
